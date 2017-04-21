@@ -119,15 +119,16 @@ plt.xticks(fontsize=7)
 plt.yticks(fontsize=7)
 
 plt.subplot(3,1,2)
-plt.scatter(x_test.iloc[:,0].values,x_test.iloc[:,1].values, s=10, c=y_test ,cmap='rainbow', alpha=0.6)
+spectral = SpectralClustering(n_clusters = 2, eigen_solver='arpack', affinity='nearest_neighbors', n_neighbors=30)
+spectral_fit = spectral.fit(x_train, y_train)
+spectral_fit_model = spectral_fit.fit_predict(x_train)
+spectral_fit_predict = spectral_fit.fit_predict(x_test)
+plt.scatter(x_train.iloc[:,0].values,x_train.iloc[:,1].values, s=10, c=spectral_fit_model ,cmap='rainbow', alpha=0.6)
 plt.title("Spectral Clustering: Model", fontsize=9)
 plt.xticks(fontsize=7)
 plt.yticks(fontsize=7)
 
 plt.subplot(3,1,3)
-spectral = SpectralClustering(n_clusters = 2, eigen_solver='arpack', affinity='nearest_neighbors', n_neighbors=30)
-spectral_fit = spectral.fit(x_train, y_train)
-spectral_fit_predict = spectral_fit.fit_predict(x_test)
 error_spectral = 0
 for i in range(0,ts):
     if spectral_fit_predict[i] != y_test[i]:
@@ -249,16 +250,78 @@ plt.savefig('plots/spectral_all.png', dpi=300)
 '''--------------------
 k-means
 --------------------'''
-# plt.figure(3).set_size_inches(6,4)
-# plt.figure(3).subplots_adjust(left=0.05, bottom=0.1, right=0.95, top=0.9, wspace=0.6, hspace=0.8)
-#
-# km = cluster.KMeans(n_clusters=2, random_state=0)
-# km.fit(X)
-# cl = km.labels_
-# plt.subplot(1,2,1)
-# plt.scatter(X[:,3],X[:,2],c=cl)
-#
-# plt.savefig('plots/k-means.png', dpi=300)
+plt.figure(3).set_size_inches(6,4)
+plt.figure(3).subplots_adjust(left=0.05, bottom=0.1, right=0.95, top=0.9, wspace=0.6, hspace=0.8)
+
+
+plt.subplot(3,1,1)
+plt.scatter(X.iloc[:,0],X.iloc[:,1], s=10, c=Y ,cmap='winter', alpha=0.6)
+plt.title("Original Data", fontsize=9)
+plt.xticks(fontsize=7)
+plt.yticks(fontsize=7)
+
+plt.subplot(3,1,2)
+km = cluster.KMeans(n_clusters=2)
+km = km.fit(x_train, y_train)
+km_fit_model = km.fit_predict(x_train)
+cl = km.predict(x_test)
+plt.scatter(x_train.iloc[:,0].values,x_train.iloc[:,1].values, s=10, c=km_fit_model ,cmap='rainbow', alpha=0.6)
+plt.title("K-means: Model", fontsize=9)
+plt.xticks(fontsize=7)
+plt.yticks(fontsize=7)
+
+plt.subplot(3,1,3)
+error_spectral = 0
+for i in range(0,ts):
+    if cl[i] != y_test[i]:
+        error_spectral = error_spectral + 1
+error_spectral = error_spectral/ts*100
+if error_spectral > 50:
+    error_spectral = 100 - error_spectral
+plt.scatter(x_test.iloc[:,0].values,x_test.iloc[:,1].values, s=10, c=cl ,cmap='rainbow', alpha=0.6)
+plt.title("K-means (Error: %s%%)" %(round(error_spectral,2)), fontsize=9)
+plt.xticks(fontsize=7)
+plt.yticks(fontsize=7)
+
+plt.savefig('plots/k-means.png', dpi=300)
+
+'''--------------------
+Hierarchical
+--------------------'''
+plt.figure(4).set_size_inches(6,4)
+plt.figure(4).subplots_adjust(left=0.05, bottom=0.1, right=0.95, top=0.9, wspace=0.6, hspace=0.8)
+
+
+plt.subplot(3,1,1)
+plt.scatter(X.iloc[:,0],X.iloc[:,1], s=10, c=Y ,cmap='winter', alpha=0.6)
+plt.title("Original Data", fontsize=9)
+plt.xticks(fontsize=7)
+plt.yticks(fontsize=7)
+
+plt.subplot(3,1,2)
+hc = cluster.AgglomerativeClustering(n_clusters=2, linkage='ward')
+hc = hc.fit(x_train, y_train)
+hc_fit_model = hc.fit_predict(x_train)
+cl = hc.fit_predict(x_test)
+plt.scatter(x_train.iloc[:,0].values,x_train.iloc[:,1].values, s=10, c=hc_fit_model ,cmap='rainbow', alpha=0.6)
+plt.title("Hierarchical: Model", fontsize=9)
+plt.xticks(fontsize=7)
+plt.yticks(fontsize=7)
+
+plt.subplot(3,1,3)
+error_spectral = 0
+for i in range(0,ts):
+    if cl[i] != y_test[i]:
+        error_spectral = error_spectral + 1
+error_spectral = error_spectral/ts*100
+if error_spectral > 50:
+    error_spectral = 100 - error_spectral
+plt.scatter(x_test.iloc[:,0].values,x_test.iloc[:,1].values, s=10, c=cl ,cmap='rainbow', alpha=0.6)
+plt.title("Hierarchical (Error: %s%%)" %(round(error_spectral,2)), fontsize=9)
+plt.xticks(fontsize=7)
+plt.yticks(fontsize=7)
+
+plt.savefig('plots/Hierarchical.png', dpi=300)
 
 # plt.show()
 
