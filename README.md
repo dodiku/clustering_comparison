@@ -5,7 +5,7 @@ This is a comparison between 3 popular machine learning clustering algorithms us
 - K-means
 
 #### Spectral Analysis
-![](/plots/spectral_All.png)
+![](/plots/spectral_all.png)
 ![](/plots/spectral.png)
 
 #### Hierarchical Clustering
