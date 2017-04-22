@@ -31,56 +31,6 @@ import csv
 import pandas as pd
 import clean
 
-'''
-
-X, Y = clean.clean()
-
-## Kmeans
-km = cluster.KMeans(n_clusters=2, random_state=0)
-km.fit(X)
-cl = km.labels_
-plt.subplot(1,2,1)
-plt.scatter(X[:,3],X[:,2],c=cl)
-
-# Hierarchical
-hc = cluster.AgglomerativeClustering(n_clusters=2, linkage='ward')
-hc.fit(X)
-cl = hc.labels_
-plt.subplot(1,2,2)
-plt.scatter(X[:,3],X[:,2],c=cl)
-
-X_train, X_test, Y_train, Y_test = train_test_split(X, Y, train_size=0.7, random_state=3)
-
-
-Xspec = SpectralClustering(n_clusters = 2)
-cl=Xspec.fit(X).labels_
-#print(cl.shape)
-plt.figure(1)
-plt.scatter(X[:,0],X[:,1],c=cl)
-
-
-plt.subplot(2,3,3)
-spectral = SpectralClustering(n_clusters = 2, eigen_solver='arpack', affinity="nearest_neighbors", n_neighbors=20)
-spectral_fit_predict = spectral.fit_predict(X)
-plt.scatter(X.iloc[:,0],X.iloc[:,1], s=10, c=spectral_fit.labels_ ,cmap='rainbow')
-plt.title("eigen_solver='arpack',\naffinity='nearest_neighbors',\nn_neighbors=20", fontsize=8)
-plt.xticks(fontsize=8)
-plt.yticks(fontsize=8)
-
-plt.figure(1).set_size_inches(8,8)
-plt.figure(1).subplots_adjust(left=0.05, bottom=0.1, right=0.95, top=0.9, wspace=0.6, hspace=0.5)
-
-plt.savefig('plots/spectral.png', dpi=300)
-# plt.show()
-
-
-
-
-svm_rbf.fit(x_training,y_training)
-prediction_svm_rbf = svm_rbf.predict(x_test)
-error_svm_rbf = np.sum((prediction_svm_rbf[i] != y_test[i]) for i in range(0,ts))
-
-'''
 '''------------------------------------
 LOADING THE DATASET THAT INCLUDES THE FOLLOWING COLUMNS:
     [0] = Neighborhood
@@ -160,7 +110,7 @@ error_spectral = error_spectral/ts*100
 if error_spectral > 50:
     error_spectral = 100 - error_spectral
 plt.scatter(x_test.iloc[:,0].values,x_test.iloc[:,1].values, s=4, c=spectral_fit_predict ,cmap='rainbow', alpha=0.6)
-plt.title("eigen_solver='arpack', affinity='nearest_neighbors'\nSpectral Clustering: Prediction (Error: %s%%)" %(round(error_spectral,2)), fontsize=6)
+plt.title("eigen_solver='arpack', affinity='nearest_neighbors'\nError: %s%%" %(round(error_spectral,2)), fontsize=6)
 plt.xticks(fontsize=5)
 plt.yticks(fontsize=5)
 
@@ -176,7 +126,7 @@ error_spectral = error_spectral/ts*100
 if error_spectral > 50:
     error_spectral = 100 - error_spectral
 plt.scatter(x_test.iloc[:,0].values,x_test.iloc[:,1].values, s=4, c=spectral_fit_predict ,cmap='rainbow', alpha=0.6)
-plt.title("eigen_solver='arpack', affinity='nearest_neighbors'\nn_neighbors=20\nSpectral Clustering: Prediction (Error: %s%%)" %(round(error_spectral,2)), fontsize=6)
+plt.title("eigen_solver='arpack', affinity='nearest_neighbors'\nn_neighbors=20\nError: %s%%" %(round(error_spectral,2)), fontsize=6)
 plt.xticks(fontsize=5)
 plt.yticks(fontsize=5)
 
@@ -192,7 +142,7 @@ error_spectral = error_spectral/ts*100
 if error_spectral > 50:
     error_spectral = 100 - error_spectral
 plt.scatter(x_test.iloc[:,0].values,x_test.iloc[:,1].values, s=4, c=spectral_fit_predict ,cmap='rainbow', alpha=0.6)
-plt.title("eigen_solver='arpack', affinity='nearest_neighbors'\nn_neighbors=40\nSpectral Clustering: Prediction (Error: %s%%)" %(round(error_spectral,2)), fontsize=6)
+plt.title("eigen_solver='arpack', affinity='nearest_neighbors'\nn_neighbors=40\nError: %s%%" %(round(error_spectral,2)), fontsize=6)
 plt.xticks(fontsize=5)
 plt.yticks(fontsize=5)
 
@@ -208,12 +158,12 @@ error_spectral = error_spectral/ts*100
 if error_spectral > 50:
     error_spectral = 100 - error_spectral
 plt.scatter(x_test.iloc[:,0].values,x_test.iloc[:,1].values, s=4, c=spectral_fit_predict ,cmap='rainbow', alpha=0.6)
-plt.title("eigen_solver='lobpcg', affinity='nearest_neighbors'\nSpectral Clustering: Prediction (Error: %s%%)" %(round(error_spectral,2)), fontsize=6)
+plt.title("eigen_solver='lobpcg', affinity='nearest_neighbors'\nError: %s%%" %(round(error_spectral,2)), fontsize=6)
 plt.xticks(fontsize=5)
 plt.yticks(fontsize=5)
 
 plt.subplot(2,3,5)
-spectral = SpectralClustering(n_clusters = 2, eigen_solver='lobpcg', affinity='nearest_neighbors', n_neighbors=20)
+spectral = SpectralClustering(n_clusters = 2, eigen_solver='lobpcg', affinity='nearest_neighbors', n_neighbors=25)
 spectral_fit = spectral.fit(x_train, y_train)
 spectral_fit_predict = spectral_fit.fit_predict(x_test)
 error_spectral = 0
@@ -224,12 +174,12 @@ error_spectral = error_spectral/ts*100
 if error_spectral > 50:
     error_spectral = 100 - error_spectral
 plt.scatter(x_test.iloc[:,0].values,x_test.iloc[:,1].values, s=4, c=spectral_fit_predict ,cmap='rainbow', alpha=0.6)
-plt.title("eigen_solver='lobpcg', affinity='nearest_neighbors'\nn_neighbors=20\nSpectral Clustering: Prediction (Error: %s%%)" %(round(error_spectral,2)), fontsize=6)
+plt.title("eigen_solver='lobpcg', affinity='nearest_neighbors'\nn_neighbors=25\nError: %s%%" %(round(error_spectral,2)), fontsize=6)
 plt.xticks(fontsize=5)
 plt.yticks(fontsize=5)
 
 plt.subplot(2,3,6)
-spectral = SpectralClustering(n_clusters = 2, eigen_solver='lobpcg', affinity='nearest_neighbors')
+spectral = SpectralClustering(n_clusters = 2, eigen_solver='lobpcg', affinity='nearest_neighbors', n_neighbors=35)
 spectral_fit = spectral.fit(x_train, y_train)
 spectral_fit_predict = spectral_fit.fit_predict(x_test)
 error_spectral = 0
@@ -240,7 +190,7 @@ error_spectral = error_spectral/ts*100
 if error_spectral > 50:
     error_spectral = 100 - error_spectral
 plt.scatter(x_test.iloc[:,0].values,x_test.iloc[:,1].values, s=4, c=spectral_fit_predict ,cmap='rainbow', alpha=0.6)
-plt.title("eigen_solver='lobpcg', affinity='nearest_neighbors'\nSpectral Clustering: Prediction (Error: %s%%)" %(round(error_spectral,2)), fontsize=6)
+plt.title("eigen_solver='lobpcg', affinity='nearest_neighbors\nn_neighbors=35'\nError: %s%%" %(round(error_spectral,2)), fontsize=6)
 plt.xticks(fontsize=5)
 plt.yticks(fontsize=5)
 
@@ -279,7 +229,7 @@ error_spectral = error_spectral/ts*100
 if error_spectral > 50:
     error_spectral = 100 - error_spectral
 plt.scatter(x_test.iloc[:,0].values,x_test.iloc[:,1].values, s=10, c=cl ,cmap='rainbow', alpha=0.6)
-plt.title("K-means (Error: %s%%)" %(round(error_spectral,2)), fontsize=9)
+plt.title("K-means: Prediction (Error: %s%%)" %(round(error_spectral,2)), fontsize=9)
 plt.xticks(fontsize=7)
 plt.yticks(fontsize=7)
 
@@ -299,7 +249,7 @@ plt.xticks(fontsize=7)
 plt.yticks(fontsize=7)
 
 plt.subplot(3,1,2)
-hc = cluster.AgglomerativeClustering(n_clusters=2, linkage='ward')
+hc = cluster.AgglomerativeClustering(n_clusters=2, linkage='average', affinity='cosine')
 hc = hc.fit(x_train, y_train)
 hc_fit_model = hc.fit_predict(x_train)
 cl = hc.fit_predict(x_test)
@@ -317,12 +267,121 @@ error_spectral = error_spectral/ts*100
 if error_spectral > 50:
     error_spectral = 100 - error_spectral
 plt.scatter(x_test.iloc[:,0].values,x_test.iloc[:,1].values, s=10, c=cl ,cmap='rainbow', alpha=0.6)
-plt.title("Hierarchical (Error: %s%%)" %(round(error_spectral,2)), fontsize=9)
+plt.title("Hierarchical: Prediction (Error: %s%%)" %(round(error_spectral,2)), fontsize=9)
 plt.xticks(fontsize=7)
 plt.yticks(fontsize=7)
 
 plt.savefig('plots/Hierarchical.png', dpi=300)
 
+
+
+plt.figure(5).set_size_inches(6,4)
+plt.figure(5).subplots_adjust(left=0.05, bottom=0.1, right=0.95, top=0.9, wspace=0.6, hspace=0.8)
+
+plt.subplot(2,3,1)
+hc = cluster.AgglomerativeClustering(n_clusters=2, linkage='ward', affinity='euclidean')
+hc = hc.fit(x_train, y_train)
+hc_fit_model = hc.fit_predict(x_train)
+cl = hc.fit_predict(x_test)
+error_spectral = 0
+for i in range(0,ts):
+    if cl[i] != y_test[i]:
+        error_spectral = error_spectral + 1
+error_spectral = error_spectral/ts*100
+if error_spectral > 50:
+    error_spectral = 100 - error_spectral
+plt.scatter(x_test.iloc[:,0].values,x_test.iloc[:,1].values, s=4, c=spectral_fit_predict ,cmap='rainbow', alpha=0.6)
+plt.title("linkage='ward' affinity='euclidean'\nError: %s%%" %(round(error_spectral,2)), fontsize=6)
+plt.xticks(fontsize=5)
+plt.yticks(fontsize=5)
+
+plt.subplot(2,3,2)
+hc = cluster.AgglomerativeClustering(n_clusters=2, linkage='average', affinity='manhattan')
+hc = hc.fit(x_train, y_train)
+hc_fit_model = hc.fit_predict(x_train)
+cl = hc.fit_predict(x_test)
+error_spectral = 0
+for i in range(0,ts):
+    if cl[i] != y_test[i]:
+        error_spectral = error_spectral + 1
+error_spectral = error_spectral/ts*100
+if error_spectral > 50:
+    error_spectral = 100 - error_spectral
+plt.scatter(x_test.iloc[:,0].values,x_test.iloc[:,1].values, s=4, c=spectral_fit_predict ,cmap='rainbow', alpha=0.6)
+plt.title("linkage='average' affinity='manhattan'\nError: %s%%" %(round(error_spectral,2)), fontsize=6)
+plt.xticks(fontsize=5)
+plt.yticks(fontsize=5)
+
+plt.subplot(2,3,3)
+hc = cluster.AgglomerativeClustering(n_clusters=2, linkage='average', affinity='euclidean')
+hc = hc.fit(x_train, y_train)
+hc_fit_model = hc.fit_predict(x_train)
+cl = hc.fit_predict(x_test)
+error_spectral = 0
+for i in range(0,ts):
+    if cl[i] != y_test[i]:
+        error_spectral = error_spectral + 1
+error_spectral = error_spectral/ts*100
+if error_spectral > 50:
+    error_spectral = 100 - error_spectral
+plt.scatter(x_test.iloc[:,0].values,x_test.iloc[:,1].values, s=4, c=spectral_fit_predict ,cmap='rainbow', alpha=0.6)
+plt.title("linkage='average'\nError: %s%%" %(round(error_spectral,2)), fontsize=6)
+plt.xticks(fontsize=5)
+plt.yticks(fontsize=5)
+
+plt.subplot(2,3,4)
+hc = cluster.AgglomerativeClustering(n_clusters=2, linkage='average', affinity='l1')
+hc = hc.fit(x_train, y_train)
+hc_fit_model = hc.fit_predict(x_train)
+cl = hc.fit_predict(x_test)
+error_spectral = 0
+for i in range(0,ts):
+    if cl[i] != y_test[i]:
+        error_spectral = error_spectral + 1
+error_spectral = error_spectral/ts*100
+if error_spectral > 50:
+    error_spectral = 100 - error_spectral
+plt.scatter(x_test.iloc[:,0].values,x_test.iloc[:,1].values, s=4, c=spectral_fit_predict ,cmap='rainbow', alpha=0.6)
+plt.title("linkage='average' affinity='l1'\nError: %s%%" %(round(error_spectral,2)), fontsize=6)
+plt.xticks(fontsize=5)
+plt.yticks(fontsize=5)
+
+plt.subplot(2,3,5)
+hc = cluster.AgglomerativeClustering(n_clusters=2, linkage='average', affinity='l2')
+hc = hc.fit(x_train, y_train)
+hc_fit_model = hc.fit_predict(x_train)
+cl = hc.fit_predict(x_test)
+error_spectral = 0
+for i in range(0,ts):
+    if cl[i] != y_test[i]:
+        error_spectral = error_spectral + 1
+error_spectral = error_spectral/ts*100
+if error_spectral > 50:
+    error_spectral = 100 - error_spectral
+plt.scatter(x_test.iloc[:,0].values,x_test.iloc[:,1].values, s=4, c=spectral_fit_predict ,cmap='rainbow', alpha=0.6)
+plt.title("linkage='average' affinity='l2'\nError: %s%%" %(round(error_spectral,2)), fontsize=6)
+plt.xticks(fontsize=5)
+plt.yticks(fontsize=5)
+
+plt.subplot(2,3,6)
+hc = cluster.AgglomerativeClustering(n_clusters=2, linkage='average', affinity='cosine')
+hc = hc.fit(x_train, y_train)
+hc_fit_model = hc.fit_predict(x_train)
+cl = hc.fit_predict(x_test)
+error_spectral = 0
+for i in range(0,ts):
+    if cl[i] != y_test[i]:
+        error_spectral = error_spectral + 1
+error_spectral = error_spectral/ts*100
+if error_spectral > 50:
+    error_spectral = 100 - error_spectral
+plt.scatter(x_test.iloc[:,0].values,x_test.iloc[:,1].values, s=4, c=spectral_fit_predict ,cmap='rainbow', alpha=0.6)
+plt.title("linkage='average' affinity='cosine'\nError: %s%%" %(round(error_spectral,2)), fontsize=6)
+plt.xticks(fontsize=5)
+plt.yticks(fontsize=5)
+
+
+plt.savefig('plots/Hierarchical_all.png', dpi=300)
 # plt.show()
 
 print ('\n~~~\n🐱  meow!\n~~~\n')
